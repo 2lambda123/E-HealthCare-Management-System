@@ -3,6 +3,7 @@ package EHMS;
 import EHMS.ConnectionProvider;
 import EHMS.Register;
 import java.sql.*;
+import java.sql.PreparedStatement;
 
 import java.util.Scanner;
 public class Patients extends Person//patient class Inheriting from person class//
@@ -53,8 +54,9 @@ public class Patients extends Person//patient class Inheriting from person class
 		try
 		{
 			Connection con=ConnectionProvider.getCon();
-			Statement st=con.createStatement();
-			st.executeUpdate("insert into Users values('"+PatientID+"','"+"Patient"+"','"+password+"')");
+			PreparedStatement st=con.prepareStatement("insert into Users values('"+PatientID+"','"+"Patient"+"',?"+")");
+			st.setString(1, password);
+			st.execute();
 			System.out.println("Registered Succesfully!!");
 		}catch(Exception e)
 		{
@@ -231,8 +233,11 @@ public class Patients extends Person//patient class Inheriting from person class
     	YourComment +=sc.nextLine();
     	try {
 			Connection con=ConnectionProvider.getCon();
-			Statement st=con.createStatement();
-			st.executeUpdate("INSERT INTO feedback VALUES ('"+pid+"','"+points+"','"+Doc_Nature+"','"+Location+"','"+YourComment+"')");
+			PreparedStatement st=con.prepareStatement("INSERT INTO feedback VALUES ('"+pid+"','"+points+"',?"+",?"+",?"+")");
+			st.setString(1, Doc_Nature);
+			st.setString(2, Location);
+			st.setString(3, YourComment);
+			st.execute();
 			System.out.println("-->>Thank You For Visiting Us<<--");
 	    	System.out.println("-->>Your Feedback Meant a lot to Us<<--");
 		}catch(Exception e)

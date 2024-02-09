@@ -1,6 +1,7 @@
 package EHMS;
 import EHMS.ConnectionProvider;
 import java.sql.*;
+import java.sql.PreparedStatement;
 import java.util.*;
 public class Admin extends Person
 {
@@ -42,8 +43,9 @@ public class Admin extends Person
 		}
 		try {
 			Connection con=ConnectionProvider.getCon();
-			Statement st=con.createStatement();
-			st.executeUpdate("insert into Users values('"+DoctorID+"','"+"Doctor"+"','"+password+"')");
+			PreparedStatement st=con.prepareStatement("insert into Users values('"+DoctorID+"','"+"Doctor"+"',?"+")");
+			st.setString(1, password);
+			st.execute();
 			System.out.println("Registered Succesfully!!");
 		}catch(Exception e){
 			System.out.println("Please enter data in correct format!!");
