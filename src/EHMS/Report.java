@@ -1,6 +1,7 @@
 package EHMS;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -66,8 +67,10 @@ public class Report
 	{
 		try {
 			Connection con=ConnectionProvider.getCon();
-			Statement st=con.createStatement();
-			st.executeUpdate("INSERT INTO Reports VALUES ('"+RepId+"','"+appid+"','"+pid+"','"+docid+"','"+MedicinePrescribed+"','"+DoctorsComment+"')");
+			PreparedStatement st=con.prepareStatement("INSERT INTO Reports VALUES ('"+RepId+"','"+appid+"','"+pid+"','"+docid+"',?"+",?"+")");
+			st.setString(1, MedicinePrescribed);
+			st.setString(2, DoctorsComment);
+			st.execute();
 			System.out.println("Report Generated Succesfully!!!");
 			ChangeStatus();
 		}catch(Exception e)

@@ -1,6 +1,7 @@
 package EHMS;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -337,8 +338,14 @@ public class Appointment
 			
 			{
 				Connection con=ConnectionProvider.getCon();
-				Statement st=con.createStatement();
-				st.executeUpdate("INSERT INTO Appointments VALUES ('"+Apid+"','"+Problem+"','"+pid+"','"+Doctor_Name+"','"+Doctor_id+"','"+Doctor_Type+"','"+Doctor_Qualification+"','"+docFees+"','"+payment_status+"','"+Appointment_Status+"')");
+				PreparedStatement st=con.prepareStatement("INSERT INTO Appointments VALUES ('"+Apid+"',?"+",'"+pid+"',?"+",'"+Doctor_id+"',?"+",?"+",'"+docFees+"',?"+",?"+")");
+				st.setString(1, Problem);
+				st.setString(2, Doctor_Name);
+				st.setString(3, Doctor_Type);
+				st.setString(4, Doctor_Qualification);
+				st.setString(5, payment_status);
+				st.setString(6, Appointment_Status);
+				st.execute();
 				System.out.println("ThankYou For visiting us your Appointment Has Been confirmed!!!");
 			}
 			catch(Exception e)

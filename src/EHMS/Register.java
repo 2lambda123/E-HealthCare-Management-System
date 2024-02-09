@@ -11,8 +11,15 @@ public class Register
 		try 
 		{
 			Connection con=ConnectionProvider.getCon();
-			Statement st=con.createStatement();
-			st.executeUpdate("INSERT INTO Patients VALUES ('"+pid+"','"+fn+"','"+ln+"','"+G+"','"+cn+"','"+age+"','"+Eid+"','"+BloodGroup+"','"+Address+"')");
+			PreparedStatement st=con.prepareStatement("INSERT INTO Patients VALUES ('"+pid+"',?"+",?"+",?"+",?"+",'"+age+"',?"+",?"+",?"+")");
+			st.setString(1, fn);
+			st.setString(2, ln);
+			st.setString(3, G);
+			st.setString(4, cn);
+			st.setString(5, Eid);
+			st.setString(6, BloodGroup);
+			st.setString(7, Address);
+			st.execute();
 			System.out.println("Registered Succesfully!!");
 		}
 		catch(Exception e)
@@ -26,8 +33,15 @@ public class Register
 		try 
 		{
 			Connection con=ConnectionProvider.getCon();
-			Statement st=con.createStatement();
-			st.executeUpdate("INSERT INTO Doctors VALUES ('"+docid+"','"+fn+"','"+ln+"','"+G+"','"+cn+"','"+age+"','"+ec+"','"+Q+"','"+dt+"','"+ed+"')");
+			PreparedStatement st=con.prepareStatement("INSERT INTO Doctors VALUES ('"+docid+"',?"+",?"+",?"+",?"+",'"+age+"','"+ec+"',?"+",?"+",?"+")");
+			st.setString(1, fn);
+			st.setString(2, ln);
+			st.setString(3, G);
+			st.setString(4, cn);
+			st.setString(5, Q);
+			st.setString(6, dt);
+			st.setString(7, ed);
+			st.execute();
 			System.out.println("Doctor Added Successully");
 		}
 		catch(Exception e)
